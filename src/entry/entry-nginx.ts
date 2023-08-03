@@ -1,4 +1,4 @@
-import { makeKVEntry } from "./entry-kv"
+import { entriesKV } from "./entry-kv"
 import { Context, EntryIter, LogLine } from "../../model"
 
 let bodyMatchers = [
@@ -35,8 +35,8 @@ function parseNginxBody(body: { [key: string]: any }): { [key: string]: any } {
   }
 }
 
-export async function* makeNginxEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
-  for await (const entry of makeKVEntry(service, iter, ctx)) {
+export async function* entriesNginx(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
+  for await (const entry of entriesKV(service, iter, ctx)) {
     try {
       yield { ...entry, body: parseNginxBody(entry.body) }
     } catch (err) {

@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import { v4 as uuid } from "uuid"
 
 import { LogLine, ctx } from "../.."
-import { makeLoggerheadEntry, makeKVEntry, makeNginxEntry } from "."
+import { entriesLoggerhead, entriesKV, entriesNginx } from "."
 
 async function* logIter(lines: { [key: string]: any }[]): AsyncGenerator<LogLine> {
   for (const index in lines)
@@ -16,7 +16,7 @@ describe("entry-iter", () => {
   test("kv", async () => {
     const logRaw = { id: uuid() }
 
-    const iter = makeKVEntry("no-match", logIter([logRaw]), ctx({ entryFields: new Set() }))
+    const iter = entriesKV("no-match", logIter([logRaw]), ctx({ entryFields: new Set() }))
     const next = await iter.next()
     expect(next.done).toEqual(false)
     expect(next.value.body.id).toEqual(logRaw.id)
@@ -28,7 +28,7 @@ describe("entry-iter", () => {
     const fields = [uuid(), uuid(), uuid()]
     const logRaw = { MESSAGE: fields.join("\t") }
 
-    const iter = makeLoggerheadEntry("loggerhead", logIter([logRaw]), ctx({ entryFields: new Set() }))
+    const iter = entriesLoggerhead("loggerhead", logIter([logRaw]), ctx({ entryFields: new Set() }))
     const next = await iter.next()
     expect(next.value.body.client_timestamp).toEqual(fields[0])
     expect(next.value.body.error_message).toEqual(fields[1])
@@ -52,7 +52,7 @@ describe("entry-iter", () => {
       "referrer: \"https://alien.abduction.net/unauth-login-flow-h2wl0dsut7k/admin/theme\"",
     ].join(" ")
 
-    const iter = makeNginxEntry("test.nginx.error", logIter([{ log: logRaw }]), ctx({ entryFields: new Set() }))
+    const iter = entriesNginx("test.nginx.error", logIter([{ log: logRaw }]), ctx({ entryFields: new Set() }))
     const next = await iter.next()
 
     expect(next.value.body.client).toEqual(client)

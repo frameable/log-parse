@@ -1,8 +1,8 @@
 import { Entry } from "../../model"
-export { makeKVEntry } from "./entry-kv"
-export { makeLoggerheadEntry } from "./entry-loggerhead"
-export { makeNginxEntry } from "./entry-nginx"
-export { makePinoEntry } from "./entry-pino"
+export { entriesKV } from "./entry-kv"
+export { entriesLoggerhead } from "./entry-loggerhead"
+export { entriesNginx } from "./entry-nginx"
+export { entriesPino } from "./entry-pino"
 
 async function* filterID(id: number, iter: AsyncGenerator<Entry>) {
   for await (const entry of iter) {
