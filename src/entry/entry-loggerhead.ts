@@ -1,4 +1,4 @@
-import { Context, LogLine } from "../../model";
+import { Context, EntryIter, LogLine } from "../../model";
 import { makeKVEntry } from "./entry-kv";
 
 const messageKeys: [number, string][] = [
@@ -19,7 +19,7 @@ const messageKeys: [number, string][] = [
   [14, "user_agent_short"],
 ]
 
-export async function* makeLoggerheadEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context) {
+export async function* makeLoggerheadEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
   for await (const entry of makeKVEntry(service, iter, ctx)) {
     const messageParts = entry.body.MESSAGE.split("\t")
     const messageEntries = messageKeys

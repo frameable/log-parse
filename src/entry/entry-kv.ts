@@ -1,6 +1,6 @@
-import { Context, LogLine } from "../../model"
+import { Context, EntryIter, LogLine } from "../../model"
 
-export async function* makeKVEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context) {
+export async function* makeKVEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
   for await (const { line, content } of iter) {
     const [rawTime, body] = content.split("\t");
     const timestamp = new Date(rawTime)

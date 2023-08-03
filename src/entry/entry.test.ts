@@ -1,9 +1,8 @@
 import dayjs from "dayjs"
 import { v4 as uuid } from "uuid"
 
-import { makeEntries } from "."
 import { LogLine, ctx } from "../.."
-
+import { makeLoggerheadEntry, makeKVEntry, makeNginxEntry } from "."
 
 async function* logIter(lines: { [key: string]: any }[]): AsyncGenerator<LogLine> {
   for (const index in lines)
@@ -14,10 +13,10 @@ async function* logIter(lines: { [key: string]: any }[]): AsyncGenerator<LogLine
 }
 
 describe("entry-iter", () => {
-  test("kv (no-match)", async () => {
+  test("kv", async () => {
     const logRaw = { id: uuid() }
 
-    const iter = makeEntries("no-match", logIter([logRaw]), ctx({ entryFields: new Set() }))
+    const iter = makeKVEntry("no-match", logIter([logRaw]), ctx({ entryFields: new Set() }))
     const next = await iter.next()
     expect(next.done).toEqual(false)
     expect(next.value.body.id).toEqual(logRaw.id)
@@ -25,22 +24,20 @@ describe("entry-iter", () => {
     expect((await iter.next()).done).toEqual(true)
   })
 
-  for (const service of ["loggerhead", "loggerhead-dev.app.systemd"]) {
-    test(`loggerhead (${service})`, async () => {
-      const fields = [uuid(), uuid(), uuid()]
-      const logRaw = { MESSAGE: fields.join("\t") }
+  test(`loggerhead`, async () => {
+    const fields = [uuid(), uuid(), uuid()]
+    const logRaw = { MESSAGE: fields.join("\t") }
 
-      const iter = makeEntries(service, logIter([logRaw]), ctx({ entryFields: new Set() }))
-      const next = await iter.next()
-      expect(next.value.body.client_timestamp).toEqual(fields[0])
-      expect(next.value.body.error_message).toEqual(fields[1])
-      expect(next.value.body.error_stack).toEqual(fields[2])
+    const iter = makeLoggerheadEntry("loggerhead", logIter([logRaw]), ctx({ entryFields: new Set() }))
+    const next = await iter.next()
+    expect(next.value.body.client_timestamp).toEqual(fields[0])
+    expect(next.value.body.error_message).toEqual(fields[1])
+    expect(next.value.body.error_stack).toEqual(fields[2])
 
-      expect(next.value.body.email).toStrictEqual(null)
-    })
-  }
+    expect(next.value.body.email).toStrictEqual(null)
+  })
 
-  test("nginx error (test.nginx.error)", async () => {
+  test("nginx error", async () => {
     const client = "000.000.000.000"
     const host = "alien.abduction.net"
     const message = 'holy shit we have "quotes in here"'
@@ -55,7 +52,7 @@ describe("entry-iter", () => {
       "referrer: \"https://alien.abduction.net/unauth-login-flow-h2wl0dsut7k/admin/theme\"",
     ].join(" ")
 
-    const iter = makeEntries("test.nginx.error", logIter([{ log: logRaw }]), ctx({ entryFields: new Set() }))
+    const iter = makeNginxEntry("test.nginx.error", logIter([{ log: logRaw }]), ctx({ entryFields: new Set() }))
     const next = await iter.next()
 
     expect(next.value.body.client).toEqual(client)

@@ -1,27 +1,8 @@
-import { Context, Entry, EntryIter, EntryIterFunc, LogLine } from "../../model"
-import { makeKVEntry } from "./entry-kv"
-import { makeLoggerheadEntry } from "./entry-loggerhead"
-import { makeNginxEntry } from "./entry-nginx"
-import { makePinoEntry } from "./entry-pino"
-
-const entryLookup: [RegExp, EntryIterFunc][] = [
-  [/^.+.nginx.error$/, makeNginxEntry],
-  [/^loggerhead$/, makeLoggerheadEntry],
-  [/^loggerhead-.+\.systemd$/, makeLoggerheadEntry],
-  [/^frameable-beta-grackle.*/, makePinoEntry],
-  [/^grackle.*/, makePinoEntry],
-  [/peacock/, makePinoEntry],
-]
-
-export const makeEntries = (service: string, logIter: AsyncGenerator<LogLine>, ctx: Context): EntryIter => {
-  for (const [match, maker] of entryLookup) {
-    if (service.match(match)) {
-      return maker(service, logIter, ctx)
-    }
-  }
-
-  return makeKVEntry(service, logIter, ctx)
-}
+import { Entry } from "../../model"
+export { makeKVEntry } from "./entry-kv"
+export { makeLoggerheadEntry } from "./entry-loggerhead"
+export { makeNginxEntry } from "./entry-nginx"
+export { makePinoEntry } from "./entry-pino"
 
 async function* filterID(id: number, iter: AsyncGenerator<Entry>) {
   for await (const entry of iter) {
@@ -29,7 +10,7 @@ async function* filterID(id: number, iter: AsyncGenerator<Entry>) {
   }
 }
 
-export async function* makeEntryChunks(iter: AsyncGenerator<Entry>, size: number, notBeforeID: number) {
+export async function* chunkEntries(iter: AsyncGenerator<Entry>, size: number, notBeforeID: number) {
   const filterIter = filterID(notBeforeID, iter)
   while (true) {
     const buffer: Entry[] = []
