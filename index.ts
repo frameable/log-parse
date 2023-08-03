@@ -4,7 +4,8 @@ export { Context, ColumnIndex, LogLine, Entry, EntryIterFunc, EntryIter } from "
 export { insert, insertFunc, latestLogStat, getDatabase } from "./src/insert"
 export { iterLogs } from "./src/read-file"
 
-export const ctx = (part: Partial<Context> & Pick<Context, "entryFields">): Context => ({
+export const ctx = (part?: Partial<Context>): Context => ({
+  entryFields: new Set<string>(),
   sqliteTable: "logs",
   sqliteRoot: "/tmp",
   sqliteInMemory: false,

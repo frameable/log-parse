@@ -23,7 +23,7 @@ describe("log-iter", () => {
     const logWant = uuid()
     fs.writeFileSync(path.join(logsRoot, "current.log"), logWant)
 
-    const iter = iterLogs(ctx({ entryFields: new Set(), logsRoot, logsDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logsRoot, logsDaysAgo: 1 }))
     const next = await iter.next()
     if (next.done) throw "done"
     expect(next.value.line).toEqual(0)
@@ -35,7 +35,7 @@ describe("log-iter", () => {
     const logWant = uuid()
     fs.writeFileSync(path.join(logsRoot, `file.${dayjs().format("YYYYMMDD")}.log`), logWant)
 
-    const next = await iterLogs(ctx({ entryFields: new Set(), logsRoot, logsDaysAgo: 1 })).next()
+    const next = await iterLogs(ctx({ logsRoot, logsDaysAgo: 1 })).next()
     if (next.done) throw "done"
     expect(next.value.content).toEqual(logWant)
   })
@@ -45,7 +45,7 @@ describe("log-iter", () => {
     fs.writeFileSync(path.join(logsRoot, "current.log"), logWant)
     fs.writeFileSync(path.join(logsRoot, `file.${dayjs().subtract(2, "day").format("YYYYMMDD")}.log`), uuid())
 
-    const iter = iterLogs(ctx({ entryFields: new Set(), logsRoot, logsDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logsRoot, logsDaysAgo: 1 }))
     const next = await iter.next()
 
     if (next.done) throw "done"
@@ -63,7 +63,7 @@ describe("log-iter", () => {
 
     await new Promise(resolve => gzip.end(resolve))
 
-    const iter = iterLogs(ctx({ entryFields: new Set(), logsRoot, logsDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logsRoot, logsDaysAgo: 1 }))
     const next = await iter.next()
     if (next.done) throw "done"
     expect(next.value.content).toEqual(logWant)

@@ -4,8 +4,9 @@ import { writeFile, mkdtemp } from "node:fs/promises"
 import { ctx, iterLogs } from "..";
 
 const main = async () => {
-  const context = ctx({ entryFields: new Set(["log"]), logsRoot: await mkdtemp(join(tmpdir(), "")) })
-  writeFile(join(context.logsRoot, "current.log"), `\
+  const context = ctx()
+
+  await writeFile(join(context.logsRoot, "current.log"), `\
 some log data
 some more log data
 whew that's a lot of logs`)

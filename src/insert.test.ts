@@ -8,8 +8,8 @@ describe("insertion func", () => {
       { identifier: 1, timestamp: new Date(), body: { foo: "bread" } },
     ]
 
-    const context = ctx({ entryFields: new Set(["foo"]) })
-    const database = makeDatabase(":memory:", context)
+    const context = ctx({ entryFields: new Set(["foo"]), sqliteInMemory: true })
+    const database = makeDatabase("test", context)
 
     insert(entries, database, context)
 
