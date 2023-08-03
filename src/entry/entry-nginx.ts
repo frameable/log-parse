@@ -1,5 +1,5 @@
 import { makeKVEntry } from "./entry-kv"
-import { Context, LogLine } from "../.."
+import { Context, LogLine } from "../../model"
 
 let bodyMatchers = [
   ["date", /(?<date>\d{4}\/\d{2}\/\d{2})/],

@@ -1,4 +1,4 @@
-import { Context, Entry, EntryIter, EntryIterFunc, LogLine } from "../.."
+import { Context, Entry, EntryIter, EntryIterFunc, LogLine } from "../../model"
 import { makeKVEntry } from "./entry-kv"
 import { makeLoggerheadEntry } from "./entry-loggerhead"
 import { makeNginxEntry } from "./entry-nginx"

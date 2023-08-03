@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as zlib from "zlib";
 import * as readline from "readline";
 
-import { Context, LogLine } from "..";
+import { Context, LogLine } from "../model";
 
 const filenameDate = (filename: string): Dayjs => {
   // file.<year><month><day>.<extension>
@@ -61,7 +61,7 @@ async function* logLines(filepath: string) {
   }
 }
 
-export const collectLogFiles = (ctx: Context): { filepath: string, date: Dayjs }[] =>
+const collectLogFiles = (ctx: Context): { filepath: string, date: Dayjs }[] =>
   fs.readdirSync(ctx.logsRoot)
     .map((basename) => ({ filepath: path.join(ctx.logsRoot, basename), date: filenameDate(basename) }))
     .filter(file => file.date >= dayjs().subtract(ctx.logsDaysAgo, "day"))

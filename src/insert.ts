@@ -2,7 +2,7 @@ import * as path from "path"
 import dayjs, { Dayjs } from 'dayjs'
 import sqlite3, { Database } from "better-sqlite3"
 
-import { Context, Entry } from ".."
+import { Context, Entry } from "../model"
 
 // make a new database, or open an existing database if it exists
 export const makeDatabase = (name: string, ctx: Context): Database => {

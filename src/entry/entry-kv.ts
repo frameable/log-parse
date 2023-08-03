@@ -1,4 +1,4 @@
-import { Context, LogLine } from "../.."
+import { Context, LogLine } from "../../model"
 
 export async function* makeKVEntry(service: string, iter: AsyncGenerator<LogLine>, ctx: Context) {
   for await (const { line, content } of iter) {

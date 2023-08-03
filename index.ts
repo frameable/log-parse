@@ -1,33 +1,8 @@
-export declare type Context = {
-  sqliteTable: string
-  entryFields: Set<string>
-  sqliteRoot: string
-  sqliteInMemory: boolean
-  sqliteColumnIndexes: ColumnIndex[]
-  logsRoot: string
-  logsDaysAgo: number
-}
+import { Context } from "./model";
 
-export declare type ColumnIndex = {
-  name: string
-  unique: boolean
-}
-
-export declare type LogLine = {
-  line: number
-  content: string
-}
-
-
-export declare type Entry = {
-  identifier: number;
-  timestamp: Date;
-  body: { [key: string]: any };
-  source?: LogLine;
-}
-
-export declare type EntryIterFunc = (service: string, iter: AsyncGenerator<LogLine>, ctx: Context) => AsyncGenerator<Entry>
-export declare type EntryIter = AsyncGenerator<Entry>
+export { Context, ColumnIndex, LogLine, Entry, EntryIterFunc, EntryIter } from "./model"
+export { insert, insertFunc, latestLogStat, getDatabase } from "./src/insert"
+export { iterLogs } from "./src/read-file"
 
 export const ctx = (part: Partial<Context> & Pick<Context, "entryFields">): Context => ({
   sqliteTable: "logs",
