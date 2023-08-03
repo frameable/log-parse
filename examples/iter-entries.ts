@@ -15,7 +15,6 @@ const main = async () => {
 10-27-2018\t{"ghosts": 215}
 10-31-2018\t{"ghosts": 99999}`)
 
-  let lastGhosts = 0
   for await (const entry of entriesKV("ghost-watch", iterLogs(context), context)) {
     console.log(`spotted ${entry.body.ghosts} ghosts on the ${entry.timestamp.getDate()}th`)
   }
