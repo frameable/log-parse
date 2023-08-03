@@ -4,6 +4,7 @@
   "description": "Load and parse app logs",
   "main": "index.ts",
   "scripts": {
+    "script": "ts-node",
     "test": "jest --coverage --verbose"
   },
   "repository": {
@@ -20,6 +21,7 @@
     "@types/node": "^20.4.5",
     "@types/uuid": "^9.0.2",
     "jest": "^29.6.2",
+    "ts-node": "^10.9.1",
     "uuid": "^9.0.0"
   },
   "dependencies": {
