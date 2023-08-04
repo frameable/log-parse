@@ -18,7 +18,7 @@ const main = async () => {
 12-31-2022\t{"year": 2022, "uniq": 2}`)
 
 
-  const entries = await chunkEntries(entriesKV("year-digit", iterLogs(context), context), 4, 0).next()
+  const entries = await chunkEntries(entriesKV("year-digits", iterLogs(context), context), 4, 0).next()
   if (!entries.value) throw "that should not be the thing that happens"
 
   const database = makeDatabase("year-digits", context)

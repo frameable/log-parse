@@ -1,6 +1,5 @@
-import { tmpdir } from "node:os";
-import { join, sep } from "node:path"
-import { writeFile, mkdtemp } from "node:fs/promises"
+import { join } from "node:path"
+import { writeFile } from "node:fs/promises"
 import { ctx, iterLogs } from "..";
 
 const main = async () => {
