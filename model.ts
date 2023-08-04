@@ -18,7 +18,6 @@ export declare type LogLine = {
   content: string
 }
 
-
 export declare type Entry = {
   identifier: number;
   timestamp: Date;
