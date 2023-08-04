@@ -13,7 +13,7 @@ export const ctx = (part?: Partial<Context>): Context => ({
   sqliteRoot: mkdtempSync(join(tmpdir(), "")),
   sqliteInMemory: false,
   sqliteColumnIndexes: [],
-  logsRoot: mkdtempSync(join(tmpdir(), "")),
-  logsDaysAgo: 1,
+  logRoot: mkdtempSync(join(tmpdir(), "")),
+  logDaysAgo: 1,
   ...part,
 })

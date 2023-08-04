@@ -7,7 +7,7 @@ import { entriesKV } from "../src/entry/entry-kv";
 const main = async () => {
   const context = ctx()
 
-  await writeFile(join(context.logsRoot, "current.log"), `\
+  await writeFile(join(context.logRoot, "current.log"), `\
 10-13-2018\t{"ghosts": 10}
 10-17-2018\t{"ghosts": 14}
 10-20-2018\t{"ghosts": 43}

@@ -46,7 +46,7 @@ export const latestLogStat = async (database: Database, ctx: Context): Promise<[
 
     return [dayjs(time), intID]
   } catch (err) {
-    return [dayjs().subtract(ctx.logsDaysAgo, "day"), 0]
+    return [dayjs().subtract(ctx.logDaysAgo, "day"), 0]
   }
 }
 

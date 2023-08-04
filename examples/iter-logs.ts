@@ -6,7 +6,7 @@ import { ctx, iterLogs } from "..";
 const main = async () => {
   const context = ctx()
 
-  await writeFile(join(context.logsRoot, "current.log"), `\
+  await writeFile(join(context.logRoot, "current.log"), `\
 some log data
 some more log data
 whew that's a lot of logs`)

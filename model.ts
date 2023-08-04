@@ -4,8 +4,8 @@ export declare type Context = {
   sqliteRoot: string
   sqliteInMemory: boolean
   sqliteColumnIndexes: ColumnIndex[]
-  logsRoot: string
-  logsDaysAgo: number
+  logRoot: string
+  logDaysAgo: number
 }
 
 export declare type ColumnIndex = {
