@@ -1,6 +1,7 @@
 export declare type Context = {
-  sqliteTable: string
   entryFields: Set<string>
+  entryRegex: RegExp
+  sqliteTable: string
   sqliteRoot: string
   sqliteInMemory: boolean
   sqliteColumnIndexes: ColumnIndex[]

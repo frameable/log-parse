@@ -37,7 +37,7 @@ describe("entry-iter", () => {
     expect(next.value.body.email).toStrictEqual(null)
   })
 
-  test("nginx error", async () => {
+  test.only("nginx error", async () => {
     const client = "000.000.000.000"
     const host = "alien.abduction.net"
     const message = 'holy shit we have "quotes in here"'

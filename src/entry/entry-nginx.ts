@@ -35,6 +35,7 @@ function parseNginxBody(body: { [key: string]: any }): { [key: string]: any } {
   }
 }
 
+
 export async function* entriesNginx(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
   for await (const entry of entriesKV(service, iter, ctx)) {
     try {
