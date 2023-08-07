@@ -6,7 +6,7 @@
       "es2020"
     ],
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "./",
     "strict": true,
     "esModuleInterop": true
   },
