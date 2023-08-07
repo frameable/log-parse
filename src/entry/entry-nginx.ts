@@ -1,5 +1,5 @@
 import { entriesKV } from "./entry-kv"
-import { Context, EntryIter, LogLine } from "../../model"
+import { Context, EntryIter, LogLine } from "../model"
 
 let bodyMatchers = [
   ["date", /(?<date>\d{4}\/\d{2}\/\d{2})/],

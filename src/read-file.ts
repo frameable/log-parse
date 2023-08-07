@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as zlib from "zlib";
 import * as readline from "readline";
 
-import { Context, LogLine } from "../model";
+import { Context, LogLine } from "./model";
 
 const filenameDate = (filename: string): Dayjs => {
   // file.<year><month><day>.<extension>

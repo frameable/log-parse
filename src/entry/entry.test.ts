@@ -1,7 +1,8 @@
 import dayjs from "dayjs"
 import { v4 as uuid } from "uuid"
 
-import { LogLine, ctx } from "../.."
+import { ctx } from "../.."
+import { LogLine } from "../model"
 import { entriesLoggerhead, entriesKV, entriesNginx } from "."
 
 async function* logIter(lines: { [key: string]: any }[]): AsyncGenerator<LogLine> {

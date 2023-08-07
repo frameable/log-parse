@@ -1,4 +1,4 @@
-import { Context, LogLine } from "../../model";
+import { Context, LogLine } from "../model";
 import { entriesKV } from "./entry-kv";
 
 export async function* entriesPino(service: string, iter: AsyncGenerator<LogLine>, ctx: Context) {

@@ -1,4 +1,4 @@
-import { Context, EntryIter, LogLine } from "../../model";
+import { Context, EntryIter, LogLine } from "../model";
 import { entriesKV } from "./entry-kv";
 
 const messageKeys: [number, string][] = [

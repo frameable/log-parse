@@ -1,4 +1,4 @@
-import { Entry } from "../../model"
+import { Entry } from "../model"
 export { entriesKV } from "./entry-kv"
 export { entriesLoggerhead } from "./entry-loggerhead"
 export { entriesNginx } from "./entry-nginx"

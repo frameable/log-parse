@@ -1,9 +1,9 @@
 import { mkdtempSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { Context } from "./model";
+import { Context } from "./src/model";
 
-export { Context, ColumnIndex, LogLine, Entry, EntryIterFunc, EntryIter } from "./model"
+export { ColumnIndex, Context, LogLine, Entry, EntryIterFunc, EntryIter } from "./src/model"
 export { insert, insertFunc, latestLogStat, getDatabase } from "./src/insert"
 export { iterLogs } from "./src/read-file"
 
