@@ -1,6 +1,6 @@
 {
   "name": "@frameable/log-parse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Load and parse app logs",
   "main": "index.ts",
   "scripts": {
