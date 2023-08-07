@@ -4,8 +4,6 @@ log-parse is a library for parsing fluentd logs, and getting them into sqlite da
 
 ## Getting started
 
-To add log-parse to your project, `npm install --save log-parse` ( this is a lie )
-
 Example code can be found [`examples`](examples/)
 
 
