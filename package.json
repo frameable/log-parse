@@ -1,5 +1,5 @@
 {
-  "name": "log-parse",
+  "name": "@frameable/log-parse",
   "version": "1.0.0",
   "description": "Load and parse app logs",
   "main": "index.ts",
@@ -27,5 +27,8 @@
   "dependencies": {
     "better-sqlite3": "^8.5.0",
     "dayjs": "^1.11.9"
+  },
+  "directories": {
+    "example": "examples"
   }
 }
