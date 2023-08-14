@@ -8,7 +8,10 @@ describe("ctx", () => {
     fs.mkdirSync(context.logRoot, { recursive: true })
     fs.mkdirSync(context.sqliteRoot, { recursive: true })
 
-    fs.writeFileSync(path.join(context.logRoot, "current.log"), "buggin' out on the mainframe!")
+    const logfile = path.join(context.logRoot, "current.log")
+    const line = "buggin' out on the mainframe!"
+    fs.writeFileSync(logfile, line)
+    expect(fs.readFileSync(logfile, { encoding: "utf-8" })).toEqual(line)
 
     fs.rmSync(context.logRoot, { recursive: true, force: true })
     fs.rmSync(context.sqliteRoot, { recursive: true, force: true })
