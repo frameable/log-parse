@@ -33,10 +33,10 @@ jobs:
           version="$(cat package.json |jq .version -r)"
           if [[ ! "refs/tags/v$version" == "$GITHUB_REF" ]]; then
             echo "v$version doesn't match $GITHUB_REF"
-            exit 1
+            exit 0
           else 
             echo "v$version OK to deploy"
+            npm publish
           fi
-      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
