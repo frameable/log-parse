@@ -1,6 +1,7 @@
 on:
   push:
     branches: [ main ]
+    tags: [ v* ]
 
 jobs: 
   test:
@@ -16,3 +17,22 @@ jobs:
           node-version: ${{ matrix.version}}
       - run: npm ci
       - run: npm run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - run: npm ci
+      - run: npm run build
+      - run: |
+          version="$(cat package.json |jq .version -r)"
+          if [[ ! "refs/tags/v$version" == "$GITHUB_REF" ]]; then
+            echo "$(cat package.json |jq .version) doesn't match $GITHUB_REF"
+            exit 1
+          fi
+    
