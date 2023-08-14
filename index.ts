@@ -11,10 +11,10 @@ export const ctx = (part?: Partial<Context>): Context => ({
   entryFields: new Set<string>(),
   entryRegex: /^(?<timestamp>[^\t ]+)[\t ](?<body>.+)$/,
   sqliteTable: "logs",
-  sqliteRoot: mkdtempSync(join(tmpdir(), "")),
+  sqliteRoot: mkdtempSync(join(tmpdir(), "/")),
   sqliteInMemory: false,
   sqliteColumnIndexes: [],
-  logRoot: mkdtempSync(join(tmpdir(), "")),
+  logRoot: mkdtempSync(join(tmpdir(), "/")),
   logDaysAgo: 1,
   ...part,
 })
