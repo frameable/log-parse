@@ -1,0 +1,18 @@
+on:
+  push:
+    branches: [ main ]
+
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+    strategy: 
+      matrix:
+        version: [16.x, 18.x, 20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.version}}
+      - run: npm ci
+      - run: npm run test
