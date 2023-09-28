@@ -17,6 +17,7 @@ const messageKeys: [number, string][] = [
   [12, "is_host"],
   [13, "user_uuid"],
   [14, "user_agent_short"],
+  [15, "severity"],
 ]
 
 export async function* entriesLoggerhead(service: string, iter: AsyncGenerator<LogLine>, ctx: Context): EntryIter {
