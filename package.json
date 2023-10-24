@@ -13,7 +13,8 @@
   "scripts": {
     "script": "ts-node",
     "test": "jest --coverage --verbose",
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -f {,src/{,entry/}}*.{js,d.ts}"
   },
   "repository": {
     "type": "git",
