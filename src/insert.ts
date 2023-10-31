@@ -37,7 +37,7 @@ export const getDatabase = (name: string, ctx: Context): Database => {
 }
 
 // get the stat of the latest log if it exists
-export const latestLogStat = async (database: Database, ctx: Context): Promise<[Dayjs, number]> => {
+export const latestLogStat = (database: Database, ctx: Context): [Dayjs, number] => {
   const statement = `SELECT date(timestamp) as time, identifier as date FROM ${ctx.sqliteTable} ORDER BY identifier DESC LIMIT 1`
   try {
     const { time, identifier } = database.prepare(statement).get() as { time: string, identifier: string }
