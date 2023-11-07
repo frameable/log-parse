@@ -1,6 +1,6 @@
 {
   "name": "@frameable/log-parse",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Load and parse app logs",
   "main": "index.js",
   "types": "index.d.ts",
@@ -14,7 +14,7 @@
     "script": "ts-node",
     "test": "jest --coverage --verbose",
     "build": "tsc",
-    "clean": "rm -f {,src/{,entry/}}*.{js,d.ts}"
+    "clean": "rm -f {index,src/{,entry/}}*.{js,d.ts}"
   },
   "repository": {
     "type": "git",
