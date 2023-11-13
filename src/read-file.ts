@@ -1,8 +1,8 @@
 import dayjs, { Dayjs } from "dayjs";
-import * as path from "path";
-import * as fs from "fs";
-import * as zlib from "zlib";
-import * as readline from "readline";
+import * as path from "node:path";
+import * as fs from "node:fs";
+import * as zlib from "node:zlib";
+import * as readline from "node:readline";
 
 import { Context, LogLine } from "./model";
 

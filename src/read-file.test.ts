@@ -3,7 +3,7 @@ import os from "node:os"
 import fs from "node:fs"
 import dayjs from "dayjs"
 import { v4 as uuid } from "uuid"
-import { createGzip } from "zlib"
+import { createGzip } from "node:zlib"
 
 import { iterLogs } from "./read-file"
 import { ctx } from ".."
