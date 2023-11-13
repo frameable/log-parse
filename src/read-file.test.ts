@@ -56,6 +56,7 @@ describe("log-iter", () => {
   test("file.YYYYMMDD.log.gz", async () => {
     const logWant = uuid()
     const gzip = createGzip()
+    fs.writeFileSync(path.join(logRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`), "")
     gzip.pipe(fs.createWriteStream(path.join(logRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`)))
 
     if (!gzip.write(logWant, "utf-8"))
