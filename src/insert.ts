@@ -1,3 +1,4 @@
+import * as fs from "node:fs"
 import * as path from "node:path"
 import dayjs, { Dayjs } from 'dayjs'
 import sqlite3, { Database } from "better-sqlite3"
@@ -6,6 +7,7 @@ import { Context, Entry } from "./model"
 
 // make a new database, or open an existing database if it exists
 export const makeDatabase = (name: string, ctx: Context): Database => {
+  if (!ctx.sqliteInMemory) fs.mkdirSync(ctx.sqliteRoot, { recursive: true })
   const database = ctx.sqliteInMemory ? sqlite3(":memory:") : sqlite3(path.join(ctx.sqliteRoot, `${name}.sqlite`))
   database.pragma('journal_mode = WAL')
 
