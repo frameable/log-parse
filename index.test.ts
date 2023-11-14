@@ -16,4 +16,8 @@ describe("ctx", () => {
     fs.rmSync(context.logRoot, { recursive: true, force: true })
     fs.rmSync(context.sqliteRoot, { recursive: true, force: true })
   })
+
+  test("no undefined keys", () => {
+    expect(ctx({ sqliteTable: undefined }).sqliteTable).toEqual("logs")
+  })
 })
