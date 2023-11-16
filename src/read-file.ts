@@ -61,10 +61,17 @@ async function* logLines(filepath: string) {
   }
 }
 
-const collectLogFiles = (ctx: Context): { filepath: string, date: Dayjs }[] =>
+const bindDate = (date: Dayjs | null, mode: "before" | "after") => {
+  if (date === null) return (_: any) => true
+  if (mode == "before") return (f: { date: Dayjs }) => f.date.isBefore(date)
+  else return (f: { date: Dayjs }) => f.date.isAfter(date)
+}
+
+export const collectLogFiles = (ctx: Context): { filepath: string, date: Dayjs }[] =>
   fs.readdirSync(ctx.logfileRoot)
     .map((basename) => ({ filepath: path.join(ctx.logfileRoot, basename), date: filenameDate(basename) }))
-    .filter(file => file.date >= dayjs().subtract(ctx.logDaysAgo, "day"))
+    .filter(bindDate(ctx.logfileAfter, "after"))
+    .filter(bindDate(ctx.logfileBefore, "before"))
     .filter(file => fs.existsSync(file.filepath))
 
 
