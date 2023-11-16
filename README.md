@@ -33,10 +33,10 @@ $ head file.20230803.log.gz | gunzip
 2023-08-03T00:10:29+00:00 {"status": "ASLEEP", "message": "the server is conked out!"}
 ```
 
-We can iterate those logs as they are. We're using the `ctx` function to specify a default context but with `logRoot` set to our target directory. The `Context` struct is going to be the interface to most of the API
+We can iterate those logs as they are. We're using the `ctx` function to specify a default context but with `logfileRoot` set to our target directory. The `Context` struct is going to be the interface to most of the API
 
 ```ts
-for await (const log of iterLogs(ctx({logRoot: "/var/log/my-app"}))) {
+for await (const log of iterLogs(ctx({logfileRoot: "/var/log/my-app"}))) {
   console.log(log.content) 
 }
 ```
@@ -46,7 +46,7 @@ for await (const log of iterLogs(ctx({logRoot: "/var/log/my-app"}))) {
 If we want to parse out the JSON body, we can. The built-in generator `entriesKV` is perfect for this - it will regex match for a `body`. By default, it uses the expression `/^(?<timestamp>[^\t ]+)[\t ](?<body>.+)$/`, but any expression that matches a `body` and `timestamp` can be used with `entryRegex`
 
 ```ts
-for await (const entry of entriesKV("my-app", iterLogs(ctx({logRoot: "/var/log/my-app"})), ctx())) {
+for await (const entry of entriesKV("my-app", iterLogs(ctx({logfileRoot: "/var/log/my-app"})), ctx())) {
   console.log(entry.body.status)
 }
 ```
@@ -64,7 +64,7 @@ const database = makeDatabase("year-digits", ctx({sqliteInMemory: true}))
 We can either use insert with the database and some data directly
 
 ```ts
-const entries = const entries = await chunkEntries(entriesKV("year-digit", iterLogs(ctx({logRoot: "/var/log/my-app"})), ctx()), 4, 0).next() // the first chunk of 4
+const entries = const entries = await chunkEntries(entriesKV("year-digit", iterLogs(ctx({logfileRoot: "/var/log/my-app"})), ctx()), 4, 0).next() // the first chunk of 4
 insert(entries.value, database, ctx({sqliteInMemory: true, entryFields: new Set("status", "message")}))
 ```
 
@@ -72,13 +72,13 @@ We can also create an `insertFunc` to call later on other collections of entries
 
 ```ts
 const insFunc = insertFunc(database, ctx({sqliteInMemory: true, entryFields: new Set("status", "message")}))
-for await (const chunk of chunkEntries(entriesKV("year-digit", iterLogs(ctx({logRoot: "/var/log/my-app"})), ctx()), 4, 0)) {
+for await (const chunk of chunkEntries(entriesKV("year-digit", iterLogs(ctx({logfileRoot: "/var/log/my-app"})), ctx()), 4, 0)) {
   insFunc(chunk)
 }
 ```
 
 `entryFields` describes what fields to create columns for. log-parse also creates meta fields:
-  - `identifier` uniquely identifies a single log entry in the scope of all of the files in its `logRoot`. identifier is in chronological order 
+  - `identifier` uniquely identifies a single log entry in the scope of all of the files in its `logfileRoot`. identifier is in chronological order 
   - `timestamp` comes from the value captured by `entryRegex`, which is then parsed into a `Date`
   - `data` has a json blob with any entry kv pairs that weren't an `entryField`
 

@@ -14,7 +14,7 @@ export const ctx = (part?: Partial<Context>): Context => ({
   sqliteRoot: mkdtempSync(join(tmpdir(), "/")),
   sqliteInMemory: false,
   sqliteColumnIndexes: [],
-  logRoot: mkdtempSync(join(tmpdir(), "/")),
+  logfileRoot: mkdtempSync(join(tmpdir(), "/")),
   logDaysAgo: 1,
   ...Object.fromEntries(Object.entries(part || {}).filter(([_, value]) => value !== undefined)),
 })

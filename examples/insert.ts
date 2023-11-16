@@ -11,7 +11,7 @@ const main = async () => {
     sqliteInMemory: true
   })
 
-  await writeFile(join(context.logRoot, "current.log"), `\
+  await writeFile(join(context.logfileRoot, "current.log"), `\
 12-31-2019\t{"year": 2019, "uniq": 4}
 12-31-2020\t{"year": 2020, "uniq": 2}
 12-31-2021\t{"year": 2021, "uniq": 3}

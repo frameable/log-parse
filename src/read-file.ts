@@ -62,8 +62,8 @@ async function* logLines(filepath: string) {
 }
 
 const collectLogFiles = (ctx: Context): { filepath: string, date: Dayjs }[] =>
-  fs.readdirSync(ctx.logRoot)
-    .map((basename) => ({ filepath: path.join(ctx.logRoot, basename), date: filenameDate(basename) }))
+  fs.readdirSync(ctx.logfileRoot)
+    .map((basename) => ({ filepath: path.join(ctx.logfileRoot, basename), date: filenameDate(basename) }))
     .filter(file => file.date >= dayjs().subtract(ctx.logDaysAgo, "day"))
     .filter(file => fs.existsSync(file.filepath))
 

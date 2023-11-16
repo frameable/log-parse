@@ -9,21 +9,21 @@ import { iterLogs } from "./read-file"
 import { ctx } from ".."
 
 describe("log-iter", () => {
-  const logRoot = path.join(os.tmpdir(), uuid())
+  const logfileRoot = path.join(os.tmpdir(), uuid())
 
   beforeEach(() => {
-    fs.mkdirSync(logRoot, { recursive: true })
+    fs.mkdirSync(logfileRoot, { recursive: true })
   })
 
   afterEach(() => {
-    fs.rmSync(logRoot, { recursive: true })
+    fs.rmSync(logfileRoot, { recursive: true })
   })
 
   test("current.log", async () => {
     const logWant = uuid()
-    fs.writeFileSync(path.join(logRoot, "current.log"), logWant)
+    fs.writeFileSync(path.join(logfileRoot, "current.log"), logWant)
 
-    const iter = iterLogs(ctx({ logRoot, logDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logfileRoot, logfileAfter: dayjs().subtract(1, "day") }))
     const next = await iter.next()
     if (next.done) throw "done"
     expect(next.value.line).toEqual(0)
@@ -33,19 +33,19 @@ describe("log-iter", () => {
 
   test("file.YYYYMMDD.log", async () => {
     const logWant = uuid()
-    fs.writeFileSync(path.join(logRoot, `file.${dayjs().format("YYYYMMDD")}.log`), logWant)
+    fs.writeFileSync(path.join(logfileRoot, `file.${dayjs().format("YYYYMMDD")}.log`), logWant)
 
-    const next = await iterLogs(ctx({ logRoot, logDaysAgo: 1 })).next()
+    const next = await iterLogs(ctx({ logfileRoot, logfileAfter: dayjs().subtract(1, "day") })).next()
     if (next.done) throw "done"
     expect(next.value.content).toEqual(logWant)
   })
 
   test("exclude file.YYYYMMDD.log", async () => {
     const logWant = uuid()
-    fs.writeFileSync(path.join(logRoot, "current.log"), logWant)
-    fs.writeFileSync(path.join(logRoot, `file.${dayjs().subtract(2, "day").format("YYYYMMDD")}.log`), uuid())
+    fs.writeFileSync(path.join(logfileRoot, "current.log"), logWant)
+    fs.writeFileSync(path.join(logfileRoot, `file.${dayjs().subtract(2, "day").format("YYYYMMDD")}.log`), uuid())
 
-    const iter = iterLogs(ctx({ logRoot, logDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logfileRoot, logfileAfter: dayjs().subtract(1, "day") }))
     const next = await iter.next()
 
     if (next.done) throw "done"
@@ -57,15 +57,15 @@ describe("log-iter", () => {
   test.skip("file.YYYYMMDD.log.gz", async () => {
     const logWant = uuid()
     const gzip = createGzip()
-    fs.writeFileSync(path.join(logRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`), "")
-    gzip.pipe(fs.createWriteStream(path.join(logRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`)))
+    fs.writeFileSync(path.join(logfileRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`), "")
+    gzip.pipe(fs.createWriteStream(path.join(logfileRoot, `file.${dayjs().format("YYYYMMDD")}.log.gz`)))
 
     if (!gzip.write(logWant, "utf-8"))
       await new Promise(resolve => gzip.once("drain", resolve))
 
     await new Promise(resolve => gzip.end(resolve))
 
-    const iter = iterLogs(ctx({ logRoot, logDaysAgo: 1 }))
+    const iter = iterLogs(ctx({ logfileRoot, logfileAfter: dayjs().subtract(1, "day") }))
     const next = await iter.next()
     if (next.done) throw "done"
     expect(next.value.content).toEqual(logWant)

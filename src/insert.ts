@@ -48,7 +48,7 @@ export const latestLogStat = (database: Database, ctx: Context): [Dayjs, number]
 
     return [dayjs(time), intID]
   } catch (err) {
-    return [dayjs().subtract(ctx.logDaysAgo, "day"), 0]
+    return [ctx.logfileAfter || dayjs(0), 0]
   }
 }
 
